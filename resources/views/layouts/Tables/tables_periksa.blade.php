@@ -15,23 +15,18 @@
     </div>
     @endif
 
-
+    
     <table id="example1" class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Aksi</th>
+                <th style="text-align: center;">Nama Dokter</th>
+
             </tr>
         </thead>
         <tbody>
-            @foreach ($pasiens as $pasien)
+            @foreach ($dokters as $d)
             <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $pasien->nama}}</td>
-                <td>
-                    <a href="{{ route('pasien.index', $pasien->id) }}" class="btn btn-primary btn-sm">Periksa</a>
-
+                <td>{{ $d->nama }}</td>
                 </td>
             </tr>
             @endforeach
