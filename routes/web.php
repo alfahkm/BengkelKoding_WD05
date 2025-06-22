@@ -25,10 +25,8 @@ Route::get('/profile', function () {
 Route::get('/editprofile', function () {
     return view('layouts.editProfile');
 });
-Route::get('/list-dokter', function () {
-    $dokters = User::where('role', 'dokter')->get();
-    return view('layouts.list_dokter', compact('dokters'));
-});
+Route::get('/list-dokter', [DokterController::class, 'byDokter'])->name('periksa.byDokter');
+Route::post('/list-dokter', [DokterController::class, 'byDokter']);
 
 
 
@@ -38,7 +36,7 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'formRegister'])->name('daftar');
 Route::post('/register', [RegisterController::class, 'register']);
-Route::middleware(['auth', 'role:dokter'])->group(function () {
+Route::middleware(['auth', 'role:dokter,admin'])->group(function () {
     Route::get('/obat', [ObatController::class, 'index'])->name('obat.index');
     Route::get('/list-obat', [ObatController::class, 'obat'])->name('obat.index');
     Route::get('/obat/{id}/edit', [ObatController::class, 'edit'])->name('obat.edit');
@@ -83,4 +81,49 @@ Route::post('/reset-password', [ResetPasswordController::class, 'UpdatePassword'
 Route::put('/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.update');
 Route::middleware(['auth'])->group(function () {
     Route::post('/upload-cover-photo', [ProfileController::class, 'uploadCoverPhoto'])->name('upload.cover.photo');
+});
+
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PoliController;
+use App\Http\Controllers\JadwalPeriksaController;
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminController::class, 'formLogin'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'login']);
+    Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/dashboard', function () {
+            return view('layouts.admin.dashboard');
+        })->name('admin.dashboard');
+
+        // CRUD Pasien
+        Route::get('/pasien', [AdminController::class, 'indexPasien'])->name('admin.pasien.index');
+        Route::get('/pasien/create', [AdminController::class, 'createPasien'])->name('admin.pasien.create');
+        Route::post('/pasien', [AdminController::class, 'storePasien'])->name('admin.pasien.store');
+        Route::get('/pasien/{id}/edit', [AdminController::class, 'editPasien'])->name('admin.pasien.edit');
+        Route::put('/pasien/{id}', [AdminController::class, 'updatePasien'])->name('admin.pasien.update');
+        Route::delete('/pasien/{id}', [AdminController::class, 'destroyPasien'])->name('admin.pasien.destroy');
+
+        // Update Dokter
+        Route::get('/dokter', [AdminController::class, 'indexDokter'])->name('admin.dokter.index');
+        Route::get('/dokter/{id}/edit', [AdminController::class, 'editDokter'])->name('admin.dokter.edit');
+        Route::put('/dokter/{id}', [AdminController::class, 'updateDokter'])->name('admin.dokter.update');
+
+        // CRUD Poli
+        Route::get('/poli', [PoliController::class, 'index'])->name('admin.poli.index');
+        Route::get('/poli/create', [PoliController::class, 'create'])->name('admin.poli.create');
+        Route::post('/poli', [PoliController::class, 'store'])->name('admin.poli.store');
+        Route::get('/poli/{id}/edit', [PoliController::class, 'edit'])->name('admin.poli.edit');
+        Route::put('/poli/{id}', [PoliController::class, 'update'])->name('admin.poli.update');
+        Route::delete('/poli/{id}', [PoliController::class, 'destroy'])->name('admin.poli.destroy');
+
+        // CRUD Jadwal Periksa
+        Route::get('/jadwal', [JadwalPeriksaController::class, 'index'])->name('admin.jadwal.index');
+        Route::get('/jadwal/create', [JadwalPeriksaController::class, 'create'])->name('admin.jadwal.create');
+        Route::post('/jadwal', [JadwalPeriksaController::class, 'store'])->name('admin.jadwal.store');
+        Route::get('/jadwal/{id}/edit', [JadwalPeriksaController::class, 'edit'])->name('admin.jadwal.edit');
+        Route::put('/jadwal/{id}', [JadwalPeriksaController::class, 'update'])->name('admin.jadwal.update');
+        Route::delete('/jadwal/{id}', [JadwalPeriksaController::class, 'destroy'])->name('admin.jadwal.destroy');
+    });
 });

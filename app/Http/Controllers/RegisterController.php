@@ -23,6 +23,8 @@ class RegisterController extends Controller
                 'password' => 'required|string|min:8|confirmed',
                 'alamat' => 'required|string|max:20',
                 'no_hp' => 'required|numeric|digits_between:12,13', // Validasi nomor telepon dengan panjang 12 atau 13 digit
+                'no_rm' => 'required|string|unique:users,no_rm',
+                'ktp' => 'required|string|unique:users,ktp',
             ]
         );
 
@@ -33,7 +35,8 @@ class RegisterController extends Controller
             'role' => 'pasien',
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
-
+            'no_rm' => $request->no_rm,
+            'ktp' => $request->ktp,
         ]);
 
         Auth::login($user);

@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\periksa;
 
+use App\Models\Poli;
+
 class DokterController extends Controller
 {
     public function index()
     {
         $dokters = User::where('role', 'dokter')->get();
-        return view('layouts.dashboard', compact('dokters'));
+        $polis = Poli::all();
+        return view('layouts.dashboard', compact('dokters', 'polis'));
     }
     public function byDokter(Request $request)
     {
@@ -20,16 +23,20 @@ class DokterController extends Controller
         $periksas = Periksa::with('dokter', 'pasien')
             ->where('id_pasien', auth()->user()->id)
             ->get();
+        $polis = Poli::all();
 
         // Only process form submission for POST requests
         if ($request->isMethod('post')) {
             $request->validate([
+                'id_poli' => 'required|exists:polis,id',
                 'id_dokter' => 'required|exists:users,id',
+                'tgl_periksa' => 'required|date',
             ]);
 
             // Create new examination record
             Periksa::create([
                 'id_pasien' => auth()->user()->id,
+                'id_poli' => $request->id_poli,
                 'id_dokter' => $request->id_dokter,
                 'tgl_periksa' => $request->tgl_periksa, // You can change this if needed
                 'catatan' => $request->catatan ?? 'N/A',
@@ -43,6 +50,6 @@ class DokterController extends Controller
         }
 
         // Display the view with current data
-        return view('layouts.list_dokter', compact('dokters', 'periksas'));
+        return view('layouts.list_dokter', compact('dokters', 'periksas', 'polis'));
     }
 }

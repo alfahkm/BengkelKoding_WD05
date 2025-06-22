@@ -40,32 +40,49 @@
                     </div>
                     @endif
 
-                    <form action="{{ route('periksa.byDokter') }}" method="POST">
-                        @csrf
+<form action="{{ route('periksa.byDokter') }}" method="POST">
+    @csrf
 
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="obat">Dokter</label>
-                                <select name="id_dokter" id="id_dokter" class="form-control" required>
-                                    <!-- Placeholder -->
-                                    <option value="" disabled selected>Pilih Dokter</option>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="poli">Poli</label>
+            <select name="id_poli" id="id_poli" class="form-control" required>
+                <option value="" disabled selected>Pilih Poli</option>
+                @foreach ($polis as $poli)
+                <option value="{{ $poli->id }}">
+                    {{ $poli->nama_poli }}
+                </option>
+                @endforeach
+            </select>
+            <small class="form-text text-muted">Pilih poli yang kamu inginkan.</small>
+        </div>
 
-                                    <!-- Daftar dokter -->
-                                    @foreach ($dokters as $dokter)
-                                    <option value="{{ $dokter->id }}">
-                                        {{ $dokter->nama }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                <small class="form-text text-muted">Pilih dokter yang kamu inginkan.</small>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-warning">Pilih</button>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
+        <div class="form-group">
+            <label for="obat">Dokter</label>
+            <select name="id_dokter" id="id_dokter" class="form-control" required>
+                <!-- Placeholder -->
+                <option value="" disabled selected>Pilih Dokter</option>
 
-                    </form>
+                <!-- Daftar dokter -->
+                @foreach ($dokters as $dokter)
+                <option value="{{ $dokter->id }}">
+                    {{ $dokter->nama }}
+                </option>
+                @endforeach
+            </select>
+            <small class="form-text text-muted">Pilih dokter yang kamu inginkan.</small>
+        </div>
+        <div class="form-group">
+            <label for="tgl_periksa">Tanggal Periksa</label>
+            <input type="date" name="tgl_periksa" id="tgl_periksa" class="form-control" required>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-warning">Pilih</button>
+        </div>
+    </div>
+    <!-- /.card-body -->
+
+</form>
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3 class="card-title mb-0">Riwayat Periksa</h3>
                     </div>
