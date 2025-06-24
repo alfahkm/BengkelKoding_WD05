@@ -4,15 +4,70 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Registration Page</title>
+    <title>Register | Poliklinik Wong Mumet</title>
     @include('layouts.lib.ext_css')
-
+    <style>
+        body {
+            background-color: #0d47a1;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .register-box {
+            width: 360px;
+            margin: 7% auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        .register-logo a {
+            color: #0d47a1;
+            font-weight: 700;
+            font-size: 2rem;
+            display: block;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .register-card-body {
+            color: #333;
+        }
+        .login-box-msg {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0d47a1;
+        }
+        .btn-primary {
+            background-color: #0d47a1;
+            border-color: #0d47a1;
+        }
+        .btn-primary:hover {
+            background-color: #094a8f;
+            border-color: #094a8f;
+        }
+        .input-group-text {
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+        }
+        .form-control:focus {
+            border-color: #0d47a1;
+            box-shadow: 0 0 0 0.2rem rgba(13, 71, 161, 0.25);
+        }
+        a {
+            color: #0d47a1;
+        }
+        a:hover {
+            color: #094a8f;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="../../index2.html"><b>Admin</b>LTE</a>
+            <a href="#"><b>Poliklinik Wong Mumet</b></a>
         </div>
 
         <div class="card">
@@ -47,8 +102,6 @@
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password" required>
-
-
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -118,7 +171,7 @@
                     </a>
                 </div>
                 <span style="color:gray;">Already have an acount?</span>
-                <a href="/" class="register"> Login </a>
+                <a href="/login" class="register"> Login </a>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->

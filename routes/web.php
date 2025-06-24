@@ -12,7 +12,7 @@ use App\Models\User;
 use App\Http\Controllers\PasienController;
 
 Route::get('/', function () {
-    return view('layouts.login');
+    return view('layouts.login_selection');
 });
 Route::get('/email', function () {
     return view('layouts.emailverification');
