@@ -1,52 +1,67 @@
-@extends('layouts.admin.dashboard')
-
+@extends('layouts.main')
+@section('title', 'Jadwal Periksa')
+@section('content-header')
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>Jadwal Periksa</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Tambah Jadwal Periksa</li>
+            </ol>
+        </div>
+    </div>
+</div><!-- /.container-fluid -->
+@endsection
 @section('content')
-<div class="container mx-auto mt-6 px-4">
-    <h1 class="text-3xl font-bold mb-6">Tambah Jadwal Periksa Baru</h1>
-
-    @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+<div class="container-fluid">
+    <div class="row">
+        <!-- full width column -->
+        <div class="col-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Masukkan Data Jadwal Periksa</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="{{ route('admin.jadwal.store') }}" method="POST">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="id_dokter">Dokter</label>
+                            <select id="id_dokter" name="id_dokter" class="form-control" required>
+                                <option value="">Pilih Dokter</option>
+                                @foreach ($dokters as $dokter)
+                                    <option value="{{ $dokter->id }}" {{ old('id_dokter') == $dokter->id ? 'selected' : '' }}>
+                                    {{ $dokter->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal</label>
+                            <input type="date" id="tanggal" name="tanggal" class="form-control" value="{{ old('tanggal') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jam_mulai">Jam Mulai</label>
+                            <input type="time" id="jam_mulai" name="jam_mulai" class="form-control" value="{{ old('jam_mulai') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jam_selesai">Jam Selesai</label>
+                            <input type="time" id="jam_selesai" name="jam_selesai" class="form-control" value="{{ old('jam_selesai') }}" required>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
         </div>
-    @endif
-
-    <form action="{{ route('admin.jadwal.store') }}" method="POST" class="space-y-6">
-        @csrf
-        <div>
-            <label for="id_dokter" class="block mb-2 font-semibold">Dokter</label>
-            <select id="id_dokter" name="id_dokter" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Pilih Dokter</option>
-                @foreach ($dokters as $dokter)
-                    <option value="{{ $dokter->id }}" {{ old('id_dokter') == $dokter->id ? 'selected' : '' }}>
-                        {{ $dokter->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div>
-            <label for="tanggal" class="block mb-2 font-semibold">Tanggal</label>
-            <input type="date" id="tanggal" name="tanggal" value="{{ old('tanggal') }}" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div>
-            <label for="jam_mulai" class="block mb-2 font-semibold">Jam Mulai</label>
-            <input type="time" id="jam_mulai" name="jam_mulai" value="{{ old('jam_mulai') }}" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div>
-            <label for="jam_selesai" class="block mb-2 font-semibold">Jam Selesai</label>
-            <input type="time" id="jam_selesai" name="jam_selesai" value="{{ old('jam_selesai') }}" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <div class="space-x-4">
-            <button type="submit" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition">Simpan</button>
-            <a href="{{ route('admin.jadwal.index') }}" class="inline-block bg-gray-400 text-white font-semibold px-6 py-2 rounded hover:bg-gray-500 transition">Batal</a>
-        </div>
-    </form>
+    </div>
 </div>
 @endsection
